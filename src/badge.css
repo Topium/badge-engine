@@ -1,10 +1,14 @@
 .badge-container {
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
     border-radius: 50%;
     overflow: hidden;
     display: flex;
     place-content: center;
     border: 1px dashed #888;
     background-color: #EEE;
+}
+
+.badge-container > img {
+    pointer-events: none;
 }
