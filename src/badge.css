@@ -1,0 +1,10 @@
+.badge-container {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    place-content: center;
+    border: 1px dashed #888;
+    background-color: #EEE;
+}
