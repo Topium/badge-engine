@@ -1,12 +1,13 @@
-import { BaseSyntheticEvent, useState } from "react";
-import './badge.css';
+import { BaseSyntheticEvent, useEffect, useState } from "react";
+import { BadgeData } from './interfaces'
 
-function Badge() {
+function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}: BadgeData) => void}) {
     const [fileUrl, setFileUrl] = useState('')
     const [imageX, setImageX] = useState(0)
     const [imageY, setImageY] = useState(0)
     const [scale, setScale] = useState(100)
     const [panning, setPanning] = useState(false)
+    const [amount, setAmount] = useState(1)
 
     const handleTransform = function (n: number, f: (n:number) => void) {
         f(n);
@@ -19,7 +20,7 @@ function Badge() {
     }
 
     const handleMouseMove = function (e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-        if(panning) {
+        if(panning && fileUrl.length) {
             const imageWidth = e.target.children[0].clientWidth;
             const imageHeight = e.target.children[0].clientHeight;
             setImageX(imageX + e.movementX * (100 / imageWidth))
@@ -28,11 +29,24 @@ function Badge() {
     }
 
     const handleScroll = function (e: React.WheelEvent) {
-        let newScale = scale + 5 * Math.sign(e.deltaY) * (scale / 100);
-        newScale = newScale < 50 ? 50 : newScale;
-        newScale = newScale > 400 ? 400 : newScale;
-        setScale(newScale)
+        if (fileUrl.length) {
+            let newScale = scale + 5 * Math.sign(e.deltaY) * (scale / 100);
+            newScale = newScale < 50 ? 50 : newScale;
+            newScale = newScale > 400 ? 400 : newScale;
+            setScale(newScale)
+        }
     }
+
+    const resetBadge = function (e: React.MouseEvent) {
+        e.preventDefault();
+        setImageX(0)
+        setImageY(0)
+        setScale(100)
+    }
+
+    useEffect(() => {
+        props.onBadgeChange({fileUrl, imageX, imageY, scale, amount})
+    }, [fileUrl, imageX, imageY, scale, amount])
 
     return (
         <>
@@ -50,7 +64,12 @@ function Badge() {
                     Koko
                     <input onChange={(e) => handleTransform(parseInt(e.target.value), setScale)} value={scale} type="number" name="scale" id="scale-input" />
                 </label>
+                <label htmlFor="amount">
+                    Määrä
+                    <input onChange={(e) => setAmount(parseInt(e.target.value))} value={amount} type="number" name="amount" id="amount-input" />
+                </label>
                 <input  onChange={(e) => {fileChange(e)}} type="file" accept="image/*" name="file" id="file-input" />
+                <button onClick={(e) => resetBadge(e)}>Reset</button>
             </form>
             <div
                 className="badge-container"

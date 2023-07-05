@@ -1,6 +1,7 @@
-export interface Badge {
-    fileName: string;
-    x: number,
-    y: number,
+export interface BadgeData {
+    fileUrl: string,
+    imageX: number,
+    imageY: number,
     scale: number,
+    amount: number,
 }
