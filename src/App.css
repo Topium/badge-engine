@@ -1,29 +1,85 @@
-.badge-container {
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    overflow: hidden;
-    display: flex;
-    place-content: center;
-    border: 1px dashed #888;
-    background-color: #EEE;
+@media screen {
+    .print-container {
+        display: none;
+    }
+    
+    .badge-container {
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        overflow: hidden;
+        display: flex;
+        place-content: center;
+        border: 1px dashed #888;
+        background-color: #EEE;
+    }
+    
+    .badge-container > img {
+        pointer-events: none;
+    }
+    
+    .print-badge-cut {
+        border: 1px dashed #888;
+        overflow: hidden;
+        border-radius: 50%;
+        display: inline-flex;
+        place-content: center;
+        align-items: center;
+    }
+    
+    .print-badge-container {
+        border-radius: 50%;
+        display: flex;
+        place-content: center;
+    }
 }
 
-.badge-container > img {
-    pointer-events: none;
-}
+@media print {
+    .screen-container {
+        display: none;
+    }
 
-.print-badge-cut {
-    border: 1px dashed #888;
-    overflow: hidden;
-    border-radius: 50%;
-    display: flex;
-    place-content: center;
-    align-items: center;
-}
-
-.print-badge-container {
-    border-radius: 50%;
-    display: flex;
-    place-content: center;
+    .print-container {
+        padding-left: 10mm;
+        padding-top: 10mm;
+    }
+    
+    .print-container.size-25 .print-row {
+        margin-bottom: -4.6mm;
+    }
+    
+    .print-container.size-25 .print-row:nth-child(even) {
+        margin-left: 16.3mm;
+    }
+    
+    .print-container.size-38 .print-row {
+        margin-bottom: -6.9mm;
+    }
+    
+    .print-container.size-38 .print-row:nth-child(even) {
+        margin-left: 25.5mm;
+    }
+    
+    .print-container.size-59 .print-row {
+        margin-bottom: -9.5mm;
+    }
+    
+    .print-container.size-59 .print-row:nth-child(even) {
+        margin-left: 34.9mm;
+    }
+    
+    .print-badge-cut {
+        border: 1px dashed #888;
+        overflow: hidden;
+        border-radius: 50%;
+        display: inline-flex;
+        place-content: center;
+        align-items: center;
+    }
+    
+    .print-badge-container {
+        border-radius: 50%;
+        display: flex;
+        place-content: center;
+    }
 }

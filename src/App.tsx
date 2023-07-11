@@ -19,10 +19,14 @@ function App() {
 
   return (
     <>
-      <h1>Pinssikone</h1>
-      <MainForm onSizeChange={(e: number) => handleSizeChange(e)} />
-      <Badge onBadgeChange={(b) => handleBadgeData(b)}/>
-      <BadgePrint badgeData={badgeData} size={size} />
+      <div className="screen-container">
+        <h1>Pinssikone</h1>
+        <MainForm onSizeChange={(e: number) => handleSizeChange(e)} />
+        <Badge onBadgeChange={(b) => handleBadgeData(b)}/>
+      </div>
+      <div className={`print-container size-${size}`}>
+        <BadgePrint badgeData={badgeData} size={size} />
+      </div>
     </>
   )
 }
