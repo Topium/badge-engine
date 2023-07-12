@@ -20,7 +20,7 @@ function App() {
   return (
     <>
       <div className="screen-container">
-        <h1>Pinssikone</h1>
+        <h1>Tursakkeen Pinssikone</h1>
         <MainForm onSizeChange={(e: number) => handleSizeChange(e)} />
         <Badge onBadgeChange={(b) => handleBadgeData(b)}/>
       </div>

@@ -11,55 +11,44 @@ const BadgePrint = function(props: { badgeData: BadgeData | undefined, size: num
 
     const pageWidth = 180;
     const pageHeight = 270;
+    const rowHeightMultiplier = 0.866;
     const cutSize = (cutSizes as any)[size.toString()]
     const rowSpan = Math.floor((pageWidth - cutSize * 0.5) / cutSize);
-    const rowCount = Math.ceil(badgeData?.amount ? badgeData.amount / rowSpan : 0);
+    const pageSpan = Math.floor(pageHeight / (cutSize * rowHeightMultiplier));
+    const pageAmount = rowSpan * pageSpan
+    const pageCount = Math.ceil(badgeData?.amount ? badgeData.amount / pageAmount : 0)
 
     return (
     <>
         {badgeData && size ?
 
-            Array.from({ length: rowCount}).map((r, i) => (
-                <div key={i} className="print-row">
-                    {Array.from({length: Math.min(rowSpan, badgeData.amount - i * rowSpan)}).map((b, j) => (
-                        <div
-                            key={i * rowSpan + j}
-                            className="print-badge-cut"
-                            style={{width: cutSize + 'mm', height: cutSize + 'mm'}}
-                        >
-                            <div
-                                className="print-badge-container"
-                                style={{width: size + 'mm', height: size + 'mm'}}
-                            >
-                                <img
-                                    src={badgeData.fileUrl}
-                                    alt=""
-                                    style={{transform: `scale(${badgeData.scale}%) translate(${badgeData.imageX / badgeData.scale * 100}%,${badgeData.imageY / badgeData.scale * 100}%)`}}
-                                />
-                            </div>
+            Array.from({ length: pageCount}).map((p, i) => (
+                <div key={i} className="print-page" style={{height: pageHeight + 'mm'}}>
+                    {Array.from({ length: Math.min(pageSpan, Math.ceil((badgeData.amount - i * pageSpan * rowSpan) / rowSpan))}).map((r, j) => (
+                        <div key={j} className="print-row">
+                            {Array.from({length: Math.min(rowSpan, badgeData.amount - i * pageSpan * rowSpan - j * rowSpan)}).map((b, k) => (
+                                <div
+                                    key={k * rowSpan + k}
+                                    className="print-badge-cut"
+                                    style={{width: cutSize + 'mm', height: cutSize + 'mm'}}
+                                >
+                                    <div
+                                        className="print-badge-container"
+                                        style={{width: size + 'mm', height: size + 'mm'}}
+                                    >
+                                        <img
+                                            src={badgeData.fileUrl}
+                                            alt=""
+                                            style={{transform: `scale(${badgeData.scale}%) translate(${badgeData.imageX / badgeData.scale * 100}%,${badgeData.imageY / badgeData.scale * 100}%)`}}
+                                        />
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     ))}
+
                 </div>
             ))
-
-            // Array.from({ length: badgeData.amount}).map((b, i) => (
-            // <div
-            //     key={i}
-            //     className="print-badge-cut"
-            //     style={{width: cutSize + 'mm', height: cutSize + 'mm'}}
-            // >
-            //     <div
-            //         className="print-badge-container"
-            //         style={{width: size + 'mm', height: size + 'mm'}}
-            //     >
-            //         <img
-            //             src={badgeData.fileUrl}
-            //             alt=""
-            //             style={{transform: `scale(${badgeData.scale}%) translate(${badgeData.imageX / badgeData.scale * 100}%,${badgeData.imageY / badgeData.scale * 100}%)`}}
-            //         />
-            //     </div>
-            // </div>
-            // ))
 
         : ''}
     </>

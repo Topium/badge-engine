@@ -73,10 +73,10 @@ function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}:
             </form>
             <div
                 className="badge-container"
-                onMouseDown={(e) => {setPanning(true); e.preventDefault()}}
+                onMouseDown={e => {setPanning(true); e.preventDefault()}}
                 onMouseUp={() => setPanning(false)}
                 onMouseLeave={() => setPanning(false)}
-                onMouseMove={(e) => handleMouseMove(e)}
+                onMouseMove={e => handleMouseMove(e)}
                 onWheel={e => handleScroll(e)}
                 >
                 <img
