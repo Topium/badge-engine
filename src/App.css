@@ -1,10 +1,51 @@
 body {
     margin: 0;
+    background-image: url('./assets/black-fabric-texture-free-84.jpg');
+    color: #AAA;
+}
+
+div {
+    margin-bottom: 1rem;
+}
+
+input, select, button {
+    height: 2rem;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    margin: 0 0.25rem;
+}
+
+.hidden {
+    display: none;
 }
 
 @media screen {
     .print-container {
         display: none;
+    }
+
+    .screen-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    input#amount-input {
+        width: 3rem;
+    }
+    
+    .badge-main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem;
+        border-radius: 1rem;
+        border: 1mm dashed #888;
+        box-shadow:
+            1em 1em 1em rgba(255,255,255,0.05),
+            1em 1em 1em rgba(255,255,255,0.05) inset,
+            -1em -1em 1em rgba(0,0,0,0.3),
+            -1em -1em 1em rgba(0,0,0,0.3) inset;
     }
 
     .badge-container {
@@ -14,12 +55,24 @@ body {
         overflow: hidden;
         display: flex;
         place-content: center;
-        border: 1px dashed #888;
-        background-color: #EEE;
+        background-color: #DDD;
+        box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.5);
+    }
+
+    .badge-container:hover {
+        outline: 2mm solid #888;
+    }
+
+    .badge-container.clicked {
+        outline-color: #A4A;
     }
     
     .badge-container > img {
         pointer-events: none;
+    }
+
+    .badge-container.clicked > img {
+        opacity: 0.67;
     }
     
     .print-badge-cut {
@@ -39,6 +92,10 @@ body {
 }
 
 @media print {
+    body {
+        background-image: none;
+    }
+
     .screen-container {
         display: none;
     }

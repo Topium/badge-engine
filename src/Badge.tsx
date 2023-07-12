@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, useEffect, useState } from "react";
+import { BaseSyntheticEvent, useEffect, useRef, useState } from "react";
 import { BadgeData } from './interfaces'
 
 function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}: BadgeData) => void}) {
@@ -8,12 +8,17 @@ function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}:
     const [scale, setScale] = useState(100)
     const [panning, setPanning] = useState(false)
     const [amount, setAmount] = useState(1)
+    const [didMove, setDidMove] = useState(false)
+    const [badgeClicked, setBadgeClicked] = useState(false)
+
+    const fileInput = useRef(null);
 
     const handleTransform = function (n: number, f: (n:number) => void) {
         f(n);
     }
 
     const fileChange = function (e: BaseSyntheticEvent) {
+        setBadgeClicked(false)
         if (e.target?.files?.length) {
             setFileUrl(URL.createObjectURL(e.target.files[0]))
         }
@@ -21,10 +26,22 @@ function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}:
 
     const handleMouseMove = function (e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
         if(panning && fileUrl.length) {
+            setDidMove(true);
             const imageWidth = e.target.children[0].clientWidth;
             const imageHeight = e.target.children[0].clientHeight;
             setImageX(imageX + e.movementX * (100 / imageWidth))
             setImageY(imageY + e.movementY * (100 / imageHeight))
+        }
+    }
+
+    const handleMouseUp = function () {
+        if (!didMove && fileInput.current) {
+            setBadgeClicked(true);
+            fileInput.current.click();
+            setPanning(false)
+        } else {
+            setDidMove(false)
+            setPanning(false)
         }
     }
 
@@ -42,6 +59,7 @@ function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}:
         setImageX(0)
         setImageY(0)
         setScale(100)
+        setAmount(1)
     }
 
     useEffect(() => {
@@ -50,8 +68,7 @@ function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}:
 
     return (
         <>
-            <h2>Badge</h2>
-            <form action="">
+            <div className="hidden">
                 <label htmlFor="x">
                     X-koordinaatti
                     <input onChange={(e) => handleTransform(parseInt(e.target.value), setImageX)} value={imageX} type="number" name="x" id="x-input" />
@@ -64,26 +81,31 @@ function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}:
                     Koko
                     <input onChange={(e) => handleTransform(parseInt(e.target.value), setScale)} value={scale} type="number" name="scale" id="scale-input" />
                 </label>
-                <label htmlFor="amount">
-                    Määrä
-                    <input onChange={(e) => setAmount(parseInt(e.target.value))} value={amount} type="number" name="amount" id="amount-input" />
-                </label>
-                <input  onChange={(e) => {fileChange(e)}} type="file" accept="image/*" name="file" id="file-input" />
-                <button onClick={(e) => resetBadge(e)}>Reset</button>
-            </form>
-            <div
-                className="badge-container"
-                onMouseDown={e => {setPanning(true); e.preventDefault()}}
-                onMouseUp={() => setPanning(false)}
-                onMouseLeave={() => setPanning(false)}
-                onMouseMove={e => handleMouseMove(e)}
-                onWheel={e => handleScroll(e)}
-                >
-                <img
-                    src={fileUrl}
-                    alt=""
-                    style={{transform: `scale(${scale}%) translate(${imageX / scale * 100}%,${imageY / scale * 100}%)`}}
-                    />
+                <input ref={fileInput} onChange={(e) => {fileChange(e)}} type="file" accept="image/*" name="file" id="file-input" />
+            </div>
+            <div className="badge-main">
+                <div
+                    className={`badge-container ${badgeClicked ? 'clicked' : ''}`}
+                    onMouseDown={e => { setPanning(true); e.preventDefault() }}
+                    onMouseUp={() => handleMouseUp()}
+                    onMouseOver={() => setBadgeClicked(false)}
+                    onMouseLeave={() => { setPanning(false); setBadgeClicked(false) }}
+                    onMouseMove={e => handleMouseMove(e)}
+                    onWheel={e => handleScroll(e)}
+                    >
+                    <img
+                        src={fileUrl}
+                        alt=""
+                        style={{transform: `scale(${scale}%) translate(${imageX / scale * 100}%,${imageY / scale * 100}%)`}}
+                        />
+                </div>
+                <div className="form">
+                    <label htmlFor="amount">
+                        Määrä:&nbsp;
+                        <input onChange={(e) => setAmount(parseInt(e.target.value))} value={amount} type="number" name="amount" id="amount-input" />
+                    </label>
+                    <button onClick={(e) => resetBadge(e)}>Reset</button>
+                </div>
             </div>
         </>
     )

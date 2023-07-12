@@ -21,8 +21,8 @@ function App() {
     <>
       <div className="screen-container">
         <h1>Tursakkeen Pinssikone</h1>
-        <MainForm onSizeChange={(e: number) => handleSizeChange(e)} />
         <Badge onBadgeChange={(b) => handleBadgeData(b)}/>
+        <MainForm onSizeChange={(e: number) => handleSizeChange(e)} />
       </div>
       <div className={`print-container size-${size}`}>
         <BadgePrint badgeData={badgeData} size={size} />
