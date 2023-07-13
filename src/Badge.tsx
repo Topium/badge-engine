@@ -51,6 +51,7 @@ function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}:
             newScale = newScale < 50 ? 50 : newScale;
             newScale = newScale > 400 ? 400 : newScale;
             setScale(newScale)
+            
         }
     }
 

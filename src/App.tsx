@@ -4,6 +4,7 @@ import Badge from './Badge'
 import MainForm from './MainForm'
 import { BadgeData } from './interfaces'
 import BadgePrint from './BadgePrint'
+import Header from './Header'
 
 function App() {
   const [size, setSize] = useState(25)
@@ -20,7 +21,7 @@ function App() {
   return (
     <>
       <div className="screen-container">
-        <h1>Tursakkeen Pinssikone</h1>
+        <Header />
         <Badge onBadgeChange={(b) => handleBadgeData(b)}/>
         <MainForm onSizeChange={(e: number) => handleSizeChange(e)} />
       </div>
