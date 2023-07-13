@@ -22,11 +22,11 @@ const BadgePrint = function(props: { badgeData: BadgeData | undefined, size: num
     <>
         {badgeData && size ?
 
-            Array.from({ length: pageCount}).map((p, i) => (
+            Array.from({ length: pageCount}).map((p, i) => { p; return (
                 <div key={i} className="print-page" style={{height: pageHeight + 'mm'}}>
-                    {Array.from({ length: Math.min(pageSpan, Math.ceil((badgeData.amount - i * pageSpan * rowSpan) / rowSpan))}).map((r, j) => (
+                    {Array.from({ length: Math.min(pageSpan, Math.ceil((badgeData.amount - i * pageSpan * rowSpan) / rowSpan))}).map((r, j) => { r; return (
                         <div key={j} className="print-row">
-                            {Array.from({length: Math.min(rowSpan, badgeData.amount - i * pageSpan * rowSpan - j * rowSpan)}).map((b, k) => (
+                            {Array.from({length: Math.min(rowSpan, badgeData.amount - i * pageSpan * rowSpan - j * rowSpan)}).map((b, k) => { b; return (
                                 <div
                                     key={k * rowSpan + k}
                                     className="print-badge-cut"
@@ -43,12 +43,12 @@ const BadgePrint = function(props: { badgeData: BadgeData | undefined, size: num
                                         />
                                     </div>
                                 </div>
-                            ))}
+                            )})}
                         </div>
-                    ))}
+                    )})}
 
                 </div>
-            ))
+            )})
 
         : ''}
     </>

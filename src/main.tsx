@@ -10,7 +10,7 @@ import Test from './Test.tsx';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/pinssikone",
     element: <App />,
   },
   {

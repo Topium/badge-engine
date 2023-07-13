@@ -25,7 +25,7 @@ const Header = function () {
                         <li>Valitse pinssien koko</li>
                         <li>Paina Tulosta-painiketta</li>
                     </ol>
-                    HUOM: Valitse tulostusasetuksista 100% skaalaus!
+                    HUOM: Valitse tulostusasetuksista 100% skaalaus! Esim Chromessa: Tulosta &gt; Lisää asetuksia &gt; Asteikko &gt; Muokattu ja arvoksi "100".
                 </div>
             </div>
         </div>

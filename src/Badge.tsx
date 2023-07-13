@@ -26,9 +26,10 @@ function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}:
 
     const handleMouseMove = function (e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
         if(panning && fileUrl.length) {
+            const target = e.target as HTMLElement
             setDidMove(true);
-            const imageWidth = e.target.children[0].clientWidth;
-            const imageHeight = e.target.children[0].clientHeight;
+            const imageWidth = target.children[0].clientWidth;
+            const imageHeight = target.children[0].clientHeight;
             setImageX(imageX + e.movementX * (100 / imageWidth))
             setImageY(imageY + e.movementY * (100 / imageHeight))
         }
@@ -36,8 +37,9 @@ function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}:
 
     const handleMouseUp = function () {
         if (!didMove && fileInput.current) {
+            const current = fileInput.current as HTMLInputElement;
+            current.click();
             setBadgeClicked(true);
-            fileInput.current.click();
             setPanning(false)
         } else {
             setDidMove(false)
@@ -51,7 +53,7 @@ function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}:
             newScale = newScale < 50 ? 50 : newScale;
             newScale = newScale > 400 ? 400 : newScale;
             setScale(newScale)
-            
+
         }
     }
 
