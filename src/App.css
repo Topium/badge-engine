@@ -19,7 +19,7 @@ input, select, button {
 }
 
 button {
-    background-color: hsl(238.78deg 21.21% 54.71%);
+    background-color: var(--TursaPurple);
     color: #FFF;
 }
 
@@ -48,7 +48,7 @@ button:hover {
         display: flex;
         place-content: space-between;
         align-items: center;
-        color: #68cbd3;
+        color: var(--TursaCyan);
         margin-bottom: 0;
     }
 
@@ -86,7 +86,7 @@ button:hover {
     }
 
     .help-container.open {
-        height: 10em;
+        height: 11em;
         border-color: #888
     }
 
@@ -130,7 +130,7 @@ button:hover {
     }
 
     .badge-container.clicked {
-        outline-color: hsl(238.78deg 21.21% 54.71%);
+        outline-color: var(--TursaPurple);
     }
     
     .badge-container > img {
