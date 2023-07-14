@@ -140,21 +140,6 @@ button:hover {
     .badge-container.clicked > img {
         opacity: 0.67;
     }
-    
-    .print-badge-cut {
-        border: 1px dashed #888;
-        overflow: hidden;
-        border-radius: 50%;
-        display: inline-flex;
-        place-content: center;
-        align-items: center;
-    }
-    
-    .print-badge-container {
-        border-radius: 50%;
-        display: flex;
-        place-content: center;
-    }
 }
 
 @media print {
@@ -202,6 +187,7 @@ button:hover {
     
     .print-badge-container {
         border-radius: 50%;
+        margin: 0;
         display: flex;
         place-content: center;
     }
