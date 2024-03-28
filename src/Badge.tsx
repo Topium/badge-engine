@@ -1,5 +1,6 @@
 import { BaseSyntheticEvent, useEffect, useRef, useState } from "react";
-import { BadgeData } from './interfaces'
+import { BadgeData, ListBadgeData } from './interfaces'
+import DBForm from "./DBForm";
 
 function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}: BadgeData) => void}) {
     const [fileUrl, setFileUrl] = useState('')
@@ -65,6 +66,10 @@ function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}:
         setAmount(1)
     }
 
+    function handleBadgeSelect(listBadge: ListBadgeData) {
+        setFileUrl(listBadge.badge_url)
+    }
+
     useEffect(() => {
         props.onBadgeChange({fileUrl, imageX, imageY, scale, amount})
     }, [fileUrl, imageX, imageY, scale, amount])
@@ -102,6 +107,7 @@ function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}:
                         style={{transform: `scale(${scale}%) translate(${imageX / scale * 100}%,${imageY / scale * 100}%)`}}
                         />
                 </div>
+                <DBForm onBadgeSelect={handleBadgeSelect}/>
                 <div className="form">
                     <label htmlFor="amount">
                         Määrä:&nbsp;
