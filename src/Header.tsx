@@ -2,7 +2,9 @@ import logoUrl from './assets/tursakelogos-05-square.png';
 import infoIcon from './assets/info-icon.svg';
 import { useState } from 'react';
 
-const Header = function () {
+type Props = { openDialog: () => void}
+
+const Header = function ({openDialog}: Props) {
     const [helpOpen, setHelpOpen] = useState(false);
 
     return (
@@ -12,6 +14,7 @@ const Header = function () {
                     <img src={logoUrl} alt="" />
                     <span id="logo-text">TURSAKKEEN PINSSIAUTOMAATTI</span>
                 </span>
+                <button onClick={openDialog}>Login</button>
                 <a id="help" onClick={() => setHelpOpen(!helpOpen)}>
                     <img src={infoIcon} alt="" />
                 </a>
