@@ -1,15 +1,24 @@
 import { useEffect, useState } from "react"
-import { ListBadgeData } from "./interfaces"
+import { ErrorResponse, ListBadgeData } from "./interfaces"
+import axios, { AxiosError } from "axios"
 
 type Props = { onBadgeSelect: (b: ListBadgeData) => void; }
 
 function DBForm({onBadgeSelect}: Props) {
     const [badgesList, setBadgesList] = useState<ListBadgeData[]>([])
+    const [error, setError] = useState<string>()
 
     useEffect(() => {
-        fetch('http://127.0.0.1:5000/badges')
-        .then((res) => res.json())
-        .then((data: ListBadgeData[]) => setBadgesList(data))
+        axios.get<ListBadgeData[]>('http://127.0.0.1:5000/badges')
+        .then((res)=> {
+            setBadgesList(res.data)
+            setError(undefined)
+        })
+        .catch((err: AxiosError<ErrorResponse>) => {
+            setBadgesList([])
+            const message = err.response?.data.msg || err.message
+            setError(message)
+        })
     }, [])
 
     function handleBadgeChange(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -20,14 +29,20 @@ function DBForm({onBadgeSelect}: Props) {
     }
 
     return (
-        <label htmlFor="badge-input">
-            Valitse pinssi:&nbsp;
-            <select onChange={handleBadgeChange} name="size" id="badge-input">
-                { badgesList.map((b) => (
-                    <option key={b.id} value={b.id}>{b.badge_name}</option>
-                ))}
-            </select>
-        </label>
+        <>
+        { error ? (
+            <div className="error">{error}</div>
+        ) : (
+            <label htmlFor="badge-input">
+                Valitse pinssi:&nbsp;
+                <select onChange={handleBadgeChange} name="size" id="badge-input">
+                    { badgesList.map((b) => (
+                        <option key={b.id} value={b.id}>{b.badge_name}</option>
+                    ))}
+                </select>
+            </label>
+        )}
+        </>
     )
 }
 

@@ -15,3 +15,7 @@ export interface ListBadgeData {
     x_pos: number,
     y_pos: number
   }
+
+  export type ErrorResponse = {
+    msg: string
+}

@@ -1,8 +1,15 @@
 import React, { FormEvent, useState } from "react"
+import axios, { AxiosError } from "axios";
+import { ErrorResponse } from "./interfaces";
 
 type Props = {
     closeDialog: () => void,
     dialogRef: React.RefObject<HTMLDialogElement>
+}
+
+type UserData = {
+    username: string,
+    access_token: string
 }
 
 function LoginForm({closeDialog, dialogRef}: Props) {
@@ -15,25 +22,18 @@ function LoginForm({closeDialog, dialogRef}: Props) {
         const username = data.get('username')
         const password = data.get('password')
         console.log('submit', data)
-        fetch('http://127.0.0.1:5000/token', {
-            method: 'POST',
-            headers: {
+        axios.post<UserData>('http://127.0.0.1:5000/token',
+            {username, password},
+            {headers: {
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({username, password})
-        })
+            }})
             .then((res) => {
-                if (!res.ok) {
-                    return Promise.reject(res);
-                }
-                return res.json()
-            })
-            .then((data) => {
-                console.log('data', data)
+                console.log('result', res.data);
                 setError(undefined)
             })
-            .catch((err) => err.json())
-            .then((err) => setError(err.msg))
+            .catch((err: AxiosError<ErrorResponse>) => {
+                setError(err.response?.data.msg)
+            })
     }
 
     function handleClose() {
