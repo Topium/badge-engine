@@ -40,6 +40,10 @@ dialog::backdrop {
     display: none;
 }
 
+.error {
+    color: var(--Error)
+}
+
 @media screen {
     .print-container {
         display: none;
@@ -58,6 +62,13 @@ dialog::backdrop {
         align-items: center;
         color: var(--TursaCyan);
         margin-bottom: 0;
+    }
+
+    .header button {
+        background-color: var(--TursaCyan);
+        color: #000;
+        height: 2em;
+        line-height: 1;
     }
 
     #logo {
