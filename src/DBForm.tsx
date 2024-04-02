@@ -20,9 +20,9 @@ function DBForm({onBadgeSelect}: Props) {
     }
 
     return (
-        <label htmlFor="size">
+        <label htmlFor="badge-input">
             Valitse pinssi:&nbsp;
-            <select onChange={handleBadgeChange} name="size" id="size-input">
+            <select onChange={handleBadgeChange} name="size" id="badge-input">
                 { badgesList.map((b) => (
                     <option key={b.id} value={b.id}>{b.badge_name}</option>
                 ))}

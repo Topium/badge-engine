@@ -77,15 +77,15 @@ function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}:
     return (
         <>
             <div className="hidden">
-                <label htmlFor="x">
+                <label htmlFor="x-input">
                     X-koordinaatti
                     <input onChange={(e) => handleTransform(parseInt(e.target.value), setImageX)} value={imageX} type="number" name="x" id="x-input" />
                 </label>
-                <label htmlFor="y">
+                <label htmlFor="y-input">
                     Y-koordinaatti
                     <input onChange={(e) => handleTransform(parseInt(e.target.value), setImageY)} value={imageY} type="number" name="y" id="y-input" />
                 </label>
-                <label htmlFor="scale">
+                <label htmlFor="scale-input">
                     Koko
                     <input onChange={(e) => handleTransform(parseInt(e.target.value), setScale)} value={scale} type="number" name="scale" id="scale-input" />
                 </label>
@@ -109,7 +109,7 @@ function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}:
                 </div>
                 <DBForm onBadgeSelect={handleBadgeSelect}/>
                 <div className="form">
-                    <label htmlFor="amount">
+                    <label htmlFor="amount-input">
                         Määrä:&nbsp;
                         <input onChange={(e) => setAmount(parseInt(e.target.value))} value={amount} type="number" name="amount" id="amount-input" />
                     </label>
