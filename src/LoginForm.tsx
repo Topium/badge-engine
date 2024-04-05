@@ -29,6 +29,7 @@ function LoginForm({closeDialog, dialogRef}: Props) {
                 console.log('result', res.data);
                 setToken(res.data.access_token)
                 setError(undefined)
+                closeDialog()
             })
             .catch((err: AxiosError<ErrorResponse>) => {
                 setToken(null)
