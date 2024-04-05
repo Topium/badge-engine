@@ -1,6 +1,7 @@
 import React, { FormEvent, useState } from "react"
 import axios, { AxiosError } from "axios";
 import { ErrorResponse } from "./interfaces";
+import { useAuth } from "./provider/authProvider";
 
 type Props = {
     closeDialog: () => void,
@@ -15,6 +16,7 @@ type UserData = {
 function LoginForm({closeDialog, dialogRef}: Props) {
 
     const [error, setError] = useState<string>()
+    const {setToken} = useAuth()
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -29,9 +31,11 @@ function LoginForm({closeDialog, dialogRef}: Props) {
             }})
             .then((res) => {
                 console.log('result', res.data);
+                setToken(res.data.access_token)
                 setError(undefined)
             })
             .catch((err: AxiosError<ErrorResponse>) => {
+                setToken(null)
                 setError(err.response?.data.msg)
             })
     }

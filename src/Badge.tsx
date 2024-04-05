@@ -1,6 +1,7 @@
 import { BaseSyntheticEvent, useEffect, useRef, useState } from "react";
 import { BadgeData, ListBadgeData } from './interfaces'
 import DBForm from "./DBForm";
+import { useAuth } from "./provider/authProvider";
 
 function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}: BadgeData) => void}) {
     const [fileUrl, setFileUrl] = useState('')
@@ -13,6 +14,7 @@ function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}:
     const [badgeClicked, setBadgeClicked] = useState(false)
 
     const fileInput = useRef(null);
+    const {token} = useAuth()
 
     const handleTransform = function (n: number, f: (n:number) => void) {
         f(n);
@@ -107,7 +109,7 @@ function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}:
                         style={{transform: `scale(${scale}%) translate(${imageX / scale * 100}%,${imageY / scale * 100}%)`}}
                         />
                 </div>
-                <DBForm onBadgeSelect={handleBadgeSelect}/>
+                { token &&  <DBForm onBadgeSelect={handleBadgeSelect}/> }
                 <div className="form">
                     <label htmlFor="amount-input">
                         Määrä:&nbsp;
