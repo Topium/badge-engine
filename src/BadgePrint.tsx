@@ -1,4 +1,4 @@
-import { BadgeData } from "./interfaces";
+import { BadgeData } from "./types/interfaces";
 
 const BadgePrint = function(props: { badgeData: BadgeData | undefined, size: number}) {
     const { badgeData, size } = props;

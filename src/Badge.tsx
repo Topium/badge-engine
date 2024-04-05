@@ -1,5 +1,5 @@
 import { BaseSyntheticEvent, useEffect, useRef, useState } from "react";
-import { BadgeData, ListBadgeData } from './interfaces'
+import { BadgeData, ListBadgeData } from './types/interfaces'
 import DBForm from "./DBForm";
 import { useAuth } from "./provider/authProvider";
 

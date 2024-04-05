@@ -1,16 +1,12 @@
 import React, { FormEvent, useState } from "react"
 import axios, { AxiosError } from "axios";
-import { ErrorResponse } from "./interfaces";
+import { ErrorResponse } from "./types/interfaces";
 import { useAuth } from "./provider/authProvider";
+import { UserData } from "./types/User";
 
 type Props = {
     closeDialog: () => void,
     dialogRef: React.RefObject<HTMLDialogElement>
-}
-
-type UserData = {
-    username: string,
-    access_token: string
 }
 
 function LoginForm({closeDialog, dialogRef}: Props) {

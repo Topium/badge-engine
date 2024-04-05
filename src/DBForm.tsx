@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { ErrorResponse, ListBadgeData } from "./interfaces"
+import { ErrorResponse, ListBadgeData } from "./types/interfaces"
 import axios, { AxiosError } from "axios"
 
 type Props = { onBadgeSelect: (b: ListBadgeData) => void; }
