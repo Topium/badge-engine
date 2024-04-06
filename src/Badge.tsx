@@ -1,9 +1,13 @@
 import { BaseSyntheticEvent, useEffect, useRef, useState } from "react";
 import { BadgeData, ListBadgeData } from './types/interfaces'
-import DBForm from "./DBForm";
+import BadgeSelector from "./BadgeSelector";
 import { useAuth } from "./provider/authProvider";
 
-function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}: BadgeData) => void}) {
+type Props = {
+    onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}: BadgeData) => void
+}
+
+function Badge({onBadgeChange}: Props) {
     const [fileUrl, setFileUrl] = useState('')
     const [imageX, setImageX] = useState(0)
     const [imageY, setImageY] = useState(0)
@@ -33,8 +37,12 @@ function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}:
             setDidMove(true);
             const imageWidth = target.children[0].clientWidth;
             const imageHeight = target.children[0].clientHeight;
-            setImageX(imageX + e.movementX * (100 / imageWidth))
-            setImageY(imageY + e.movementY * (100 / imageHeight))
+            const deltaX = e.movementX * (100 / imageWidth)
+            const deltaY = e.movementY * (100 / imageHeight)
+            const newX = Math.round((imageX + deltaX) * 100) / 100
+            const newY = Math.round((imageY + deltaY) * 100) / 100
+            setImageX(newX)
+            setImageY(newY)
         }
     }
 
@@ -52,7 +60,8 @@ function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}:
 
     const handleScroll = function (e: React.WheelEvent) {
         if (fileUrl.length) {
-            let newScale = scale + 5 * Math.sign(e.deltaY) * (scale / 100);
+            let newScale = scale + e.deltaY * (scale / 100);
+            newScale = Math.round(newScale * 10) / 10
             newScale = newScale < 50 ? 50 : newScale;
             newScale = newScale > 400 ? 400 : newScale;
             setScale(newScale)
@@ -70,10 +79,13 @@ function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}:
 
     function handleBadgeSelect(listBadge: ListBadgeData) {
         setFileUrl(listBadge.badge_url)
+        setImageX(listBadge.x_pos)
+        setImageY(listBadge.y_pos)
+        setScale(parseFloat(listBadge.scale))
     }
 
     useEffect(() => {
-        props.onBadgeChange({fileUrl, imageX, imageY, scale, amount})
+        onBadgeChange({fileUrl, imageX, imageY, scale, amount})
     }, [fileUrl, imageX, imageY, scale, amount])
 
     return (
@@ -94,7 +106,7 @@ function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}:
                 <input ref={fileInput} onChange={(e) => {fileChange(e)}} type="file" accept="image/*" name="file" id="file-input" />
             </div>
             <div className="badge-main">
-            { token &&  <DBForm onBadgeSelect={handleBadgeSelect}/> }
+            { token &&  <BadgeSelector onBadgeSelect={handleBadgeSelect}/> }
 
                 <div
                     className={`badge-container ${badgeClicked ? 'clicked' : ''}`}

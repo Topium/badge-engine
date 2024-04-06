@@ -4,7 +4,7 @@ import axios, { AxiosError } from "axios"
 
 type Props = { onBadgeSelect: (b: ListBadgeData) => void; }
 
-function DBForm({onBadgeSelect}: Props) {
+function BadgeSelector({onBadgeSelect}: Props) {
     const [badgesList, setBadgesList] = useState<ListBadgeData[]>([])
     const [error, setError] = useState<string>()
 
@@ -46,4 +46,4 @@ function DBForm({onBadgeSelect}: Props) {
     )
 }
 
-export default DBForm
+export default BadgeSelector

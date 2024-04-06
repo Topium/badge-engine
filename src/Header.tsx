@@ -18,6 +18,7 @@ const Header = function ({openDialog}: Props) {
             })
             .catch((err: AxiosError<ErrorResponse>) => {
                 console.log('err', err)
+                setToken(null)
             })
     }
 
