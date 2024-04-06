@@ -2,12 +2,24 @@ import logoUrl from './assets/tursakelogos-05-square.png';
 import infoIcon from './assets/info-icon.svg';
 import { useState } from 'react';
 import { useAuth } from './provider/authProvider';
+import axios, { AxiosError } from 'axios';
+import { ErrorResponse } from './types/interfaces';
 
 type Props = { openDialog: () => void}
 
 const Header = function ({openDialog}: Props) {
     const [helpOpen, setHelpOpen] = useState(false);
     const {token, setToken} = useAuth()
+
+    function logout() {
+        axios.post('http://127.0.0.1:5000/logout')
+            .then(() => {
+                setToken(null)
+            })
+            .catch((err: AxiosError<ErrorResponse>) => {
+                console.log('err', err)
+            })
+    }
 
     return (
         <div className="header-container">
@@ -17,7 +29,7 @@ const Header = function ({openDialog}: Props) {
                     <span id="logo-text">TURSAKKEEN PINSSIAUTOMAATTI</span>
                 </span>
                 { token ? (
-                    <button onClick={() => {setToken(null)}}>Logout</button>
+                    <button onClick={logout}>Logout</button>
                 ) : (
                     <button onClick={openDialog}>Login</button>
                 )}

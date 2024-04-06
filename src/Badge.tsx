@@ -94,6 +94,8 @@ function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}:
                 <input ref={fileInput} onChange={(e) => {fileChange(e)}} type="file" accept="image/*" name="file" id="file-input" />
             </div>
             <div className="badge-main">
+            { token &&  <DBForm onBadgeSelect={handleBadgeSelect}/> }
+
                 <div
                     className={`badge-container ${badgeClicked ? 'clicked' : ''}`}
                     onMouseDown={e => { setPanning(true); e.preventDefault() }}
@@ -109,7 +111,6 @@ function Badge(props: {onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}:
                         style={{transform: `scale(${scale}%) translate(${imageX / scale * 100}%,${imageY / scale * 100}%)`}}
                         />
                 </div>
-                { token &&  <DBForm onBadgeSelect={handleBadgeSelect}/> }
                 <div className="form">
                     <label htmlFor="amount-input">
                         Määrä:&nbsp;
