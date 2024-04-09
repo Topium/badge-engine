@@ -6,33 +6,34 @@ import {
   useMemo,
   useState,
 } from "react";
+import { UserData } from "../types/User";
 
 type Props = { children: string | JSX.Element | JSX.Element[] }
-type Auth = { token: string | null, setToken: (newToken: string | null) => void }
+type Auth = { user: UserData, setUser: (newUser: UserData) => void }
 
-const AuthContext = createContext<Auth>({token: null, setToken: () => null})
+const AuthContext = createContext<Auth>({user: {access_token: null, username: null}, setUser: () => null})
 
 function AuthProvider({children}: Props) {
-    const [token, setToken_] = useState(localStorage.getItem("token"));
+    const [user, setUser_] = useState(JSON.parse(localStorage.getItem("user") || '{"username":null,"access_token":null}'));
 
-    function setToken(newToken: string | null) {
-        setToken_(newToken)
+    function setUser(newUser: UserData | null) {
+        setUser_(newUser)
     }
     useEffect(() => {
-        if (token) {
-          axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-          localStorage.setItem('token',token);
+        if (user) {
+          axios.defaults.headers.common["Authorization"] = "Bearer " + user.access_token;
+          localStorage.setItem('token',user);
         } else {
           delete axios.defaults.headers.common["Authorization"];
           localStorage.removeItem('token')
         }
-      }, [token]);
+      }, [user]);
 
     const contextValue = useMemo(() => ({
-        token,
-        setToken,
+        user,
+        setUser,
     }),
-    [token]
+    [user]
     );
 
     return (

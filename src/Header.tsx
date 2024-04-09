@@ -9,16 +9,16 @@ type Props = { openDialog: () => void}
 
 const Header = function ({openDialog}: Props) {
     const [helpOpen, setHelpOpen] = useState(false);
-    const {token, setToken} = useAuth()
+    const {user, setUser} = useAuth()
 
     function logout() {
         axios.post('http://127.0.0.1:5000/logout')
             .then(() => {
-                setToken(null)
+                setUser({username: null, access_token: null})
             })
             .catch((err: AxiosError<ErrorResponse>) => {
                 console.log('err', err)
-                setToken(null)
+                setUser({username: null, access_token: null})
             })
     }
 
@@ -29,10 +29,10 @@ const Header = function ({openDialog}: Props) {
                     <img src={logoUrl} alt="" />
                     <span id="logo-text">TURSAKKEEN PINSSIAUTOMAATTI</span>
                 </span>
-                { token ? (
-                    <button onClick={logout}>Logout</button>
+                { user.access_token ? (
+                    <button onClick={logout}>Kirjaa ulos {user.username}</button>
                 ) : (
-                    <button onClick={openDialog}>Login</button>
+                    <button onClick={openDialog}>Kirjaudu</button>
                 )}
                 <a id="help" onClick={() => setHelpOpen(!helpOpen)}>
                     <img src={infoIcon} alt="" />

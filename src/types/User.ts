@@ -1,4 +1,4 @@
 export type UserData = {
-    username: string,
-    access_token: string
+    username: string | null,
+    access_token: string | null
 }

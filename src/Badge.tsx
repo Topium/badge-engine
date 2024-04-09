@@ -18,7 +18,7 @@ function Badge({onBadgeChange}: Props) {
     const [badgeClicked, setBadgeClicked] = useState(false)
 
     const fileInput = useRef(null);
-    const {token} = useAuth()
+    const {user} = useAuth()
 
     const handleTransform = function (n: number, f: (n:number) => void) {
         f(n);
@@ -106,7 +106,7 @@ function Badge({onBadgeChange}: Props) {
                 <input ref={fileInput} onChange={(e) => {fileChange(e)}} type="file" accept="image/*" name="file" id="file-input" />
             </div>
             <div className="badge-main">
-            { token &&  <BadgeSelector onBadgeSelect={handleBadgeSelect}/> }
+            { user.access_token &&  <BadgeSelector onBadgeSelect={handleBadgeSelect}/> }
 
                 <div
                     className={`badge-container ${badgeClicked ? 'clicked' : ''}`}

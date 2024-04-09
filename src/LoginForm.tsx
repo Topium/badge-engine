@@ -12,7 +12,7 @@ type Props = {
 function LoginForm({closeDialog, dialogRef}: Props) {
 
     const [error, setError] = useState<string>()
-    const {setToken} = useAuth()
+    const {setUser} = useAuth()
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -27,12 +27,12 @@ function LoginForm({closeDialog, dialogRef}: Props) {
             }})
             .then((res) => {
                 console.log('result', res.data);
-                setToken(res.data.access_token)
+                setUser(res.data)
                 setError(undefined)
                 closeDialog()
             })
             .catch((err: AxiosError<ErrorResponse>) => {
-                setToken(null)
+                setUser({username: null, access_token: null})
                 setError(err.response?.data.msg)
             })
     }
