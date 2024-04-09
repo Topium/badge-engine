@@ -35,7 +35,8 @@ function BadgeSelector({onBadgeSelect}: Props) {
         ) : (
             <label htmlFor="badge-input">
                 Valitse pinssi:&nbsp;
-                <select onChange={handleBadgeChange} name="size" id="badge-input">
+                <select defaultValue={-1} onChange={handleBadgeChange} name="size" id="badge-input">
+                    <option disabled value={-1}>Valitse pinssi...</option>
                     { badgesList.map((b) => (
                         <option key={b.id} value={b.id}>{b.badge_name}</option>
                     ))}

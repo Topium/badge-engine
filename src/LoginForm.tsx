@@ -37,25 +37,31 @@ function LoginForm({closeDialog, dialogRef}: Props) {
             })
     }
 
-    function handleClose() {
+    function handleClose(e: React.MouseEvent) {
+        e.preventDefault()
         setError(undefined)
         closeDialog()
     }
 
     return (
         <dialog ref={dialogRef} className={error ? 'error' : undefined}>
-            <h5>Dialog</h5>
             <form onSubmit={handleSubmit} method="post">
-                <label htmlFor="username">Username</label>
-                <input id="username" name="username" type="text" autoComplete="true" />
-                <label htmlFor="password">Password</label>
-                <input id="password" name="password" type="password" />
-                <input type="submit" value="Login" />
+                <div className="form-element">
+                    <label htmlFor="username">Käyttäjänimi</label>
+                    <input id="username" name="username" type="text" autoComplete="true" />
+                </div>
+                <div className="form-element">
+                    <label htmlFor="password">Salasana</label>
+                    <input id="password" name="password" type="password" />
+                </div>
+                <div className="form-footer">
+                    <input type="submit" value="Kirjaudu" />
+                    <button onClick={handleClose}>Peruuta</button>  
+                </div>
             </form>
             { error && (
                 <div className="message">{error}</div>
             )}
-            <button onClick={handleClose}>Close</button>
         </dialog>
     )
 }

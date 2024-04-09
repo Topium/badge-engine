@@ -18,22 +18,46 @@ input, select, button {
     border: none;
 }
 
-button {
+button, input[type="submit"] {
     background-color: var(--TursaPurple);
     color: #FFF;
 }
 
-button:hover {
+button:hover, input[type="submit"]:hover {
     background-color: hsl(238.78deg 33% 70%);
 }
 
 dialog {
     border-radius: 0.5em;
+    border-color: var(--TursaPurple);
+    background-color: #FFF;
+    padding: 2em;
+    font-size: 0.85em;
 }
 
 dialog::backdrop {
-    background-color: #000;
-    opacity: 0.33;
+    backdrop-filter: grayscale(1) blur(1px);
+}
+
+dialog form {
+    font-weight: 200;
+}
+
+dialog form input:not([type='submit']) {
+    border: 1px solid var(--TursaPink);
+}
+
+dialog form .form-element {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+dialog form .form-footer {
+    text-align: right;
+    margin: 2em -2em -2em;
+    padding: 1em 2em;
+    background-color: var(--TursaPink);
 }
 
 .hidden {
