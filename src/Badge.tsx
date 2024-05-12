@@ -2,6 +2,7 @@ import { BaseSyntheticEvent, useEffect, useRef, useState } from "react";
 import { BadgeData, ListBadgeData } from './types/interfaces'
 import BadgeSelector from "./BadgeSelector";
 import { useAuth } from "./provider/authProvider";
+import BadgeSaver from "./BadgeSaver";
 
 type Props = {
     onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}: BadgeData) => void
@@ -106,7 +107,12 @@ function Badge({onBadgeChange}: Props) {
                 <input ref={fileInput} onChange={(e) => {fileChange(e)}} type="file" accept="image/*" name="file" id="file-input" />
             </div>
             <div className="badge-main">
-            { user.access_token &&  <BadgeSelector onBadgeSelect={handleBadgeSelect}/> }
+            { user.access_token && (
+                <>
+                    <BadgeSelector onBadgeSelect={handleBadgeSelect}/>
+                    <BadgeSaver scale={scale} xPos={imageX} yPos={imageY} />
+                </>
+                ) }
 
                 <div
                     className={`badge-container ${badgeClicked ? 'clicked' : ''}`}
