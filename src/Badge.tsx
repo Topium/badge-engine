@@ -3,6 +3,7 @@ import { BadgeData, ListBadgeData } from './types/interfaces'
 import BadgeSelector from "./BadgeSelector";
 import { useAuth } from "./provider/authProvider";
 import BadgeSaver from "./BadgeSaver";
+import SaveForm from "./SaveForm";
 
 type Props = {
     onBadgeChange: ({fileUrl, imageX, imageY, scale, amount}: BadgeData) => void
@@ -13,17 +14,15 @@ function Badge({onBadgeChange}: Props) {
     const [imageX, setImageX] = useState(0)
     const [imageY, setImageY] = useState(0)
     const [scale, setScale] = useState(100)
-    const [panning, setPanning] = useState(false)
     const [amount, setAmount] = useState(1)
+    const [panning, setPanning] = useState(false)
     const [didMove, setDidMove] = useState(false)
     const [badgeClicked, setBadgeClicked] = useState(false)
 
-    const fileInput = useRef(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const formRef = useRef<HTMLFormElement>(null);
     const {user} = useAuth()
-
-    const handleTransform = function (n: number, f: (n:number) => void) {
-        f(n);
-    }
+    const saveDialogRef = useRef<HTMLDialogElement>(null)
 
     const fileChange = function (e: BaseSyntheticEvent) {
         setBadgeClicked(false)
@@ -48,8 +47,8 @@ function Badge({onBadgeChange}: Props) {
     }
 
     const handleMouseUp = function () {
-        if (!didMove && fileInput.current) {
-            const current = fileInput.current as HTMLInputElement;
+        if (!didMove && fileInputRef.current) {
+            const current = fileInputRef.current as HTMLInputElement;
             current.click();
             setBadgeClicked(true);
             setPanning(false)
@@ -85,6 +84,14 @@ function Badge({onBadgeChange}: Props) {
         setScale(parseFloat(listBadge.scale))
     }
 
+    function closeSaveDialog() {
+        saveDialogRef.current && saveDialogRef.current?.close()
+      }
+      
+      function openSaveDialog() {
+        saveDialogRef.current?.showModal()
+      }
+
     useEffect(() => {
         onBadgeChange({fileUrl, imageX, imageY, scale, amount})
     }, [fileUrl, imageX, imageY, scale, amount])
@@ -92,24 +99,27 @@ function Badge({onBadgeChange}: Props) {
     return (
         <>
             <div className="hidden">
-                <label htmlFor="x-input">
-                    X-koordinaatti
-                    <input onChange={(e) => handleTransform(parseInt(e.target.value), setImageX)} value={imageX} type="number" name="x" id="x-input" />
-                </label>
-                <label htmlFor="y-input">
-                    Y-koordinaatti
-                    <input onChange={(e) => handleTransform(parseInt(e.target.value), setImageY)} value={imageY} type="number" name="y" id="y-input" />
-                </label>
-                <label htmlFor="scale-input">
-                    Koko
-                    <input onChange={(e) => handleTransform(parseInt(e.target.value), setScale)} value={scale} type="number" name="scale" id="scale-input" />
-                </label>
-                <input ref={fileInput} onChange={(e) => {fileChange(e)}} type="file" accept="image/*" name="file" id="file-input" />
+                <form ref={formRef} id="badgeForm">
+                    <label htmlFor="x-input">
+                        X-koordinaatti
+                        <input onChange={(e) => setImageX(parseInt(e.target.value))} value={imageX} type="number" name="x_pos" id="x-input" />
+                    </label>
+                    <label htmlFor="y-input">
+                        Y-koordinaatti
+                        <input onChange={(e) => setImageY(parseInt(e.target.value))} value={imageY} type="number" name="y_pos" id="y-input" />
+                    </label>
+                    <label htmlFor="scale-input">
+                        Koko
+                        <input onChange={(e) => setScale(parseInt(e.target.value))} value={scale} type="number" name="scale" id="scale-input" />
+                    </label>
+                    <input ref={fileInputRef} onChange={(e) => {fileChange(e)}} type="file" accept="image/*" name="file" id="file-input" />
+                </form>
             </div>
             <div className="badge-main">
             { user.access_token && (
                 <>
                     <BadgeSelector onBadgeSelect={handleBadgeSelect}/>
+                    <button onClick={openSaveDialog}>Talleta</button>
                     <BadgeSaver scale={scale} xPos={imageX} yPos={imageY} />
                 </>
                 ) }
@@ -137,6 +147,11 @@ function Badge({onBadgeChange}: Props) {
                     <button onClick={(e) => resetBadge(e)}>Reset</button>
                 </div>
             </div>
+            <SaveForm
+                closeDialog={closeSaveDialog}
+                dialogRef={saveDialogRef}
+                form={formRef}
+                />
         </>
     )
 }

@@ -5,9 +5,9 @@ import { useAuth } from './provider/authProvider';
 import axios, { AxiosError } from 'axios';
 import { ErrorResponse } from './types/interfaces';
 
-type Props = { openDialog: () => void}
+type Props = {openLoginDialog: () => void}
 
-const Header = function ({openDialog}: Props) {
+const Header = function ({openLoginDialog}: Props) {
     const [helpOpen, setHelpOpen] = useState(false);
     const {user, setUser} = useAuth()
 
@@ -32,7 +32,7 @@ const Header = function ({openDialog}: Props) {
                 { user.access_token ? (
                     <button onClick={logout}>Kirjaa ulos {user.username}</button>
                 ) : (
-                    <button onClick={openDialog}>Kirjaudu</button>
+                    <button onClick={openLoginDialog}>Kirjaudu</button>
                 )}
                 <a id="help" onClick={() => setHelpOpen(!helpOpen)}>
                     <img src={infoIcon} alt="" />

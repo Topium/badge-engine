@@ -11,7 +11,7 @@ function App() {
   const [size, setSize] = useState(25)
   const [badgeData, setBadgeData] = useState<BadgeData>()
 
-  const dialogRef = useRef<HTMLDialogElement>(null)
+  const loginDialogRef = useRef<HTMLDialogElement>(null)
 
   const handleSizeChange = function(e: number) {
     setSize(e)
@@ -21,25 +21,25 @@ function App() {
     setBadgeData(b);
   }
 
-  function closeDialog() {
-    dialogRef.current && dialogRef.current?.close()
+  function closeLoginDialog() {
+    loginDialogRef.current && loginDialogRef.current?.close()
   }
-
-  function openDialog() {
-    dialogRef.current?.showModal()
+  
+  function openLoginDialog() {
+    loginDialogRef.current?.showModal()
   }
 
   return (
     <>
       <div className="screen-container">
-        <Header openDialog={openDialog}/>
+        <Header openLoginDialog={openLoginDialog}/>
         <Badge onBadgeChange={(b) => handleBadgeData(b)}/>
         <MainForm onSizeChange={(e: number) => handleSizeChange(e)} />
       </div>
       <div className={`print-container size-${size}`}>
         <BadgePrint badgeData={badgeData} size={size} />
       </div>
-      <LoginForm closeDialog={closeDialog} dialogRef={dialogRef}/>
+      <LoginForm closeDialog={closeLoginDialog} dialogRef={loginDialogRef}/>
     </>
   )
 }
