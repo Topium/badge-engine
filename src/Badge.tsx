@@ -112,7 +112,7 @@ function Badge({onBadgeChange}: Props) {
                         Koko
                         <input onChange={(e) => setScale(parseInt(e.target.value))} value={scale} type="number" name="scale" id="scale-input" />
                     </label>
-                    <input ref={fileInputRef} onChange={(e) => {fileChange(e)}} type="file" accept="image/*" name="file" id="file-input" />
+                    <input ref={fileInputRef} onChange={(e) => {fileChange(e)}} type="file" accept=".png, .jpg, .jpeg, .gif" name="file" id="file-input" />
                 </form>
             </div>
             <div className="badge-main">

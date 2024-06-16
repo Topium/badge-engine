@@ -9,7 +9,7 @@ function BadgeSelector({onBadgeSelect}: Props) {
     const [error, setError] = useState<string>()
 
     useEffect(() => {
-        axios.get<ListBadgeData[]>('http://127.0.0.1:5000/badges')
+        axios.get<ListBadgeData[]>(import.meta.env.VITE_BACKEND + '/badges')
         .then((res)=> {
             setBadgesList(res.data)
             setError(undefined)

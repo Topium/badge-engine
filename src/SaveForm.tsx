@@ -21,7 +21,7 @@ function SaveForm({closeDialog, dialogRef, form}: Props) {
             data.append(entry[0], entry[1])
         }
         console.log('submit', data)
-        axios.post('http://127.0.0.1:5000/badges',
+        axios.post(import.meta.env.VITE_BACKEND + '/badges',
             data,
             {headers: {
                 "Content-Type": "multipart/form-data"

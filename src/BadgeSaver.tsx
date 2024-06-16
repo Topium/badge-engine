@@ -11,7 +11,7 @@ function BadgeSaver({xPos, yPos, scale}: Props) {
 
     function testPost(e: React.MouseEvent<HTMLButtonElement>) {
         console.log('event', e)
-        axios.post('http://127.0.0.1:5000/badges',
+        axios.post(import.meta.env.VITE_BACKEND + '/badges',
                 {x_pos: xPos, y_pos:yPos, scale, badge_url: url, badge_name: 'garvinen'},
                 {headers: {
                     'Content-Type': 'application/json'

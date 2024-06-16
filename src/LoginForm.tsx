@@ -20,7 +20,7 @@ function LoginForm({closeDialog, dialogRef}: Props) {
         const username = data.get('username')
         const password = data.get('password')
         console.log('submit', data)
-        axios.post<UserData>('http://127.0.0.1:5000/token',
+        axios.post<UserData>(import.meta.env.VITE_BACKEND + '/token',
             {username, password},
             {headers: {
                 'Content-Type': 'application/json'

@@ -12,7 +12,7 @@ const Header = function ({openLoginDialog}: Props) {
     const {user, setUser} = useAuth()
 
     function logout() {
-        axios.post('http://127.0.0.1:5000/logout')
+        axios.post(import.meta.env.VITE_BACKEND + '/logout')
             .then(() => {
                 setUser({username: null, access_token: null})
             })
